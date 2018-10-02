@@ -1,0 +1,7 @@
+{
+    "de.sebinside.premiereahk.panel": {
+        "displayName": "PremiereAHK",
+        "port": "8081",
+        "path": "/kill"
+	}
+}
