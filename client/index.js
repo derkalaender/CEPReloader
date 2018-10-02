@@ -3,7 +3,7 @@ const cs = new CSInterface();
 
 const loc = window.location.pathname;
 const dir = decodeURI(loc.substring(1, loc.lastIndexOf('/')));
-const extensions = require(dir + "/../reloadable.json");
+const extensions = require(dir + "/reloadable.json");
 
 const http = new XMLHttpRequest();
 

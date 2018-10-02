@@ -3,5 +3,31 @@
     background: #232323;
     overflow-y: hidden;
     color: #BBBBBB;
-    font-size: 11pt;
+    font-size: 10pt;
+}
+
+#extensions {
+    display: flex;
+    justify-content: center;
+}
+
+button {
+    margin-left: 5%;
+    margin-right: 5%;
+    border-color: #161616;
+    border-width: 1px;
+    border-radius: 5%;
+    text-align: center;
+    width: 100%;
+    max-width: 250px;
+    text-decoration: none;
+    transition-duration: 0.1s;
+    text-shadow:1px 1px 3px #1d1d1d;
+    box-shadow: none;
+
+    height: 15pt;
+}
+
+button:hover {
+    background: #2A2A2A;
 }
