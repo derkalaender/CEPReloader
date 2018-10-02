@@ -1,0 +1,1 @@
+Completely reloads your Adobe CEP Extensions with just a click!
