@@ -1,0 +1,22 @@
+{
+  "name": "cepreloader",
+  "version": "1.0.0",
+  "description": "CEPReloader reloads your CEP Extensions, speeding up development of such",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/derkalaender/CEPReloader.git"
+  },
+  "author": "derkalaender",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/derkalaender/CEPReloader/issues"
+  },
+  "homepage": "https://github.com/derkalaender/CEPReloader#readme",
+  "dependencies": {
+    "chokidar": "^2.0.4"
+  }
+}

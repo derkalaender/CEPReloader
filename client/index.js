@@ -1,11 +1,19 @@
-// Loading CS Interface and express via npm
 const cs = new CSInterface();
 
 const loc = window.location.pathname;
 const dir = decodeURI(loc.substring(1, loc.lastIndexOf('/')));
 const extensions = require(dir + "/reloadable.json");
 
-const http = new XMLHttpRequest();
+const WIP = false;
+
+function setup() {
+    createButtons();
+
+    if(WIP) {
+        const filewatcher = require(dir + "/watcher.js");
+        filewatcher.fileWatcher();
+    }
+}
 
 function createButtons() {
     Object.keys(extensions).forEach(function(key) {
@@ -22,10 +30,11 @@ function createButtons() {
         });
 
         document.getElementById("extensions").appendChild(btn);
-    })
+    });
 }
 
 function reloadExtension(id, port, path) {
+    const http = new XMLHttpRequest();
     const url = "http://localhost:" + port + path;
 
     console.log('Reloading Extension');
@@ -49,5 +58,5 @@ function requestExtension(id) {
     //Wait half a second before launching again, otherwise Premiere just doesn't care
     setTimeout(function() {
         cs.requestOpenExtension(id, "");
-    }, 500);
+    }, 1000);
 }
