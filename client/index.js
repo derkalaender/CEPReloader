@@ -45,21 +45,34 @@ function getExtensions() {
 
 function createButtons() {
     extensions.forEach(function(entry) {
-        const btn = document.createElement('button');
-        const text = document.createTextNode(entry.displayName);
-        btn.appendChild(text);
-
-        btn.addEventListener('click', function () {
+        const btnMain = document.createElement('button');
+        btnMain.className = 'btnMain';
+        const text_btnMain = document.createTextNode(entry.displayName);
+        btnMain.appendChild(text_btnMain);
+        btnMain.addEventListener('click', function() {
             reloadExtension(entry);
         });
 
-        document.getElementById("extensions").appendChild(btn);
+        const btnFolder = document.createElement('button');
+        btnFolder.className = 'btnFolder';
+        btnFolder.innerHTML = '<img src="folder.png"/>'
+        btnFolder.addEventListener('click', function() {
+            openExtensionFolder(entry);
+        });
+
+        document.getElementById("extensions").appendChild(btnMain);
+        document.getElementById("extensions").appendChild(btnFolder);
     });
+}
+
+function openExtensionFolder(extension) {
+    const path = extension.basePath;
+    require('child_process').exec('start "" "' + path + '"');
 }
 
 function reloadExtension(extension) {
     const http = new XMLHttpRequest();
-    const url = "http://localhost:" + extension.port + extension.path;
+    const url = "http://localhost:" + extension.restPort + extension.restPath;
 
     console.log('Reloading Extension');
 
@@ -69,12 +82,12 @@ function reloadExtension(extension) {
 
     http.onload = function () {
         console.log("Extension successfully killed");
-        requestExtension(id);
+        requestExtension(extension.id);
     };
 
     http.onerror = function () {
         console.log("Extensions seems to be killed already. Calling it nevertheless.");
-        requestExtension(id);
+        requestExtension(extension.id);
     }
 }
 
@@ -82,5 +95,5 @@ function requestExtension(id) {
     //Wait half a second before launching again, otherwise Premiere just doesn't care
     setTimeout(function() {
         cs.requestOpenExtension(id, "");
-    }, 1000);
+    }, 500);
 }

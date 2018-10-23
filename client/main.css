@@ -1,31 +1,47 @@
 * {
     font-family: sans-serif;
     background: #232323;
-    overflow-y: hidden;
     color: #BBBBBB;
     font-size: 10pt;
+    overflow: hidden;
 }
 
 #extensions {
-    display: flex;
-    justify-content: center;
+    width: 100%;
+    height: 100%;
+    margin: 5pt;
 }
 
 button {
-    margin-left: 5%;
-    margin-right: 5%;
+    display: inline-block;
     border-color: #161616;
     border-width: 1px;
     border-radius: 5%;
     text-align: center;
-    width: 100%;
-    max-width: 250px;
     text-decoration: none;
     transition-duration: 0.1s;
     text-shadow:1px 1px 3px #1d1d1d;
     box-shadow: none;
-
     height: 15pt;
+}
+
+.btnMain {
+    width: 70%;
+    margin: 0;
+    padding: 0;
+}
+
+.btnFolder {
+    margin: 0 0 0 3pt;
+    padding: 0;
+    width: 15pt;
+    height: 15pt;
+}
+
+button img {
+    padding: 0;
+    margin: 0;
+    height: 90%;
 }
 
 button:hover {
