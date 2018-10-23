@@ -2,11 +2,15 @@ const cs = new CSInterface();
 
 const loc = window.location.pathname;
 const dir = decodeURI(loc.substring(1, loc.lastIndexOf('/')));
-const extensions = require(dir + "/reloadable.json");
+const extensions_file = require(dir + "/reloadable.json");
+
+let extensions = [];
 
 const WIP = false;
 
 function setup() {
+    getExtensions();
+
     createButtons();
 
     if(WIP) {
@@ -15,27 +19,47 @@ function setup() {
     }
 }
 
-function createButtons() {
-    Object.keys(extensions).forEach(function(key) {
-        const displayName = extensions[key]["displayName"];
-        const port = extensions[key]["port"];
-        const path = extensions[key]["path"];
+function getExtensions() {
+    let installed_extensions = cs.getExtensions();
 
+    Object.keys(extensions_file).forEach(function(key) {
+        let extension = {};
+        extension.id = key;
+        extension.restPath = extensions_file[key]["path"];
+        extension.restPort = extensions_file[key]["port"];
+
+        extension.autoReload = extensions_file[key]["automatic_reload"];
+
+        //get more information about extensions
+        installed_extensions.forEach(function(entry) {
+            if(entry.id === key) {
+                extension.basePath = entry["basePath"];
+                extension.mainPath = entry["mainPath"];
+                extension.displayName = entry["name"];
+            }
+        });
+
+        extensions.push(extension);
+    });
+}
+
+function createButtons() {
+    extensions.forEach(function(entry) {
         const btn = document.createElement('button');
-        const text = document.createTextNode(displayName);
+        const text = document.createTextNode(entry.displayName);
         btn.appendChild(text);
 
         btn.addEventListener('click', function () {
-            reloadExtension(key, port, path);
+            reloadExtension(entry);
         });
 
         document.getElementById("extensions").appendChild(btn);
     });
 }
 
-function reloadExtension(id, port, path) {
+function reloadExtension(extension) {
     const http = new XMLHttpRequest();
-    const url = "http://localhost:" + port + path;
+    const url = "http://localhost:" + extension.port + extension.path;
 
     console.log('Reloading Extension');
 
