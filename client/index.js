@@ -23,6 +23,19 @@ function setup() {
         const filewatcher = require(dir + "/watcher.js");
         filewatcher.fileWatcher();
     }
+
+    //add listener for successful closing of extensions
+    cs.addEventListener(cs.getExtensionID(), function(event) {
+        if(event.data === 'ok') {
+            console.log("[" + event.extensionId + "] -> received confirmation of close request: '" + event.data + "'; re-opening extension...");
+            setTimeout(function() {
+                cs.requestOpenExtension(event.extensionId, "");
+            }, 700);
+
+        } else {
+            console.error("[" + event.extensionId + "] -> received confirmation of close request: '" + event.data + "'; something seems to be wrong...");
+        }
+    });
 }
 
 function getExtensions() {
@@ -62,7 +75,6 @@ function getExtensions() {
                 })
             });
         }
-
         extensions.push(extension);
     });
 }
@@ -75,6 +87,7 @@ function createButtons() {
         btnMain.appendChild(text_btnMain);
         btnMain.addEventListener('click', function() {
             reloadExtension(entry);
+
         });
 
         const btnFolder = document.createElement('button');
@@ -95,29 +108,8 @@ function openExtensionFolder(extension) {
 }
 
 function reloadExtension(extension) {
-    const http = new XMLHttpRequest();
-    const url = "http://localhost:" + extension.restPort + extension.restPath;
-
-    console.log('Reloading Extension');
-
-    http.open("GET", url);
-    http.send();
-
-
-    http.onload = function () {
-        console.log("Extension successfully killed");
-        requestExtension(extension.id);
-    };
-
-    http.onerror = function () {
-        console.log("Extensions seems to be killed already. Calling it nevertheless.");
-        requestExtension(extension.id);
-    }
-}
-
-function requestExtension(id) {
-    //Wait half a second before launching again, otherwise Premiere just doesn't care
-    setTimeout(function() {
-        cs.requestOpenExtension(id, "");
-    }, 500);
+    let event = new CSEvent(extension.id, "APPLICATION", cs.getApplicationID(), cs.getExtensionID());
+    event.data = 'requestClose';
+    cs.dispatchEvent(event);
+    console.log("[" + extension.id + "] <- sent request to close extension");
 }
