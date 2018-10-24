@@ -44,8 +44,6 @@ function getExtensions() {
     Object.keys(extensions_file).forEach(function(key) {
         let extension = {};
         extension.id = key;
-        extension.restPath = extensions_file[key]["path"];
-        extension.restPort = extensions_file[key]["port"];
 
         extension.autoReload = extensions_file[key]["automatic_reload"];
 
