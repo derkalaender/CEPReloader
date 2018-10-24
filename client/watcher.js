@@ -1,3 +1,4 @@
+const loc = window.location.pathname;
 const dir = decodeURI(loc.substring(1, loc.lastIndexOf('/')));
 const chokidar = require(dir + "/node_modules/chokidar/index.js");
 const extensions = require(dir + "/reloadable.json");
